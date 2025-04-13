@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: photogram
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - database_data:/var/lib/mysql
   ###< doctrine/doctrine-bundle ###
@@ -19,8 +19,8 @@ services:
     image: schickling/mailcatcher
     restart: always
     ports:
-      - "1080:1080"
-      - "1025:1025"
+      - "1081:1080"
+      - "1026:1025"
   ###< symfony/mailer ###
 
   ###> dev-tools ###
@@ -28,7 +28,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - "8080:8080"
+      - "8081:8080"
   ###< dev-tools ###
 
 volumes:
