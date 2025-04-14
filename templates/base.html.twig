@@ -34,7 +34,7 @@ darkMode: "class"
 				<div class="text-sm text-gray-500 dark:text-400 flex">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<div class="ml-2">
-							<a href="#">Logout</a>
+							<a href="{{ path('app_logout') }}">Logout</a>
 						</div>
 					{% else %}
 						<div>

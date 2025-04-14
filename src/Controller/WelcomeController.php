@@ -11,6 +11,12 @@ final class WelcomeController extends AbstractController
   #[Route('/', name: 'app_index')]
   public function index(): Response
   {
+    /** @var User $user */
+    $user = $this->getUser();
+    if ($user) {
+      return $this->redirectToRoute('app_dashboard');
+    }
+
     return $this->render('welcome/index.html.twig');
   }
 }
