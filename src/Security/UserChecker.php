@@ -29,5 +29,14 @@ class UserChecker implements UserCheckerInterface
   /**
    * @param User $user
    */
-  public function checkPostAuth(UserInterface $user): void {}
+  public function checkPostAuth(UserInterface $user): void
+  {
+    if (!$user instanceof User) {
+      return;
+    }
+
+    if (!$user->isVerified()) {
+      throw new CustomUserMessageAccountStatusException('You must verify your email address before logging in.');
+    }
+  }
 }
