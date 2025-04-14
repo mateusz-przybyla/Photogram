@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="grid grid-cols-2 gap-3 md:gap-6">
+		<img src="{{ asset('images/welcome2.jpg') }}" alt="view" class="rounded-xl col-span-2 max-h-[275px] object-cover w-full"/>
+		<h1 class="text-gray-500 py-2 md:py-4 text-center col-span-2">
+			--- Join the Photogram community ---
+		</h1>
+		<img src="{{ asset('images/welcome1.jpg') }}" alt="camera" class="rounded-xl w-full h-[275px] object-cover"/>
+		<img src="{{ asset('images/welcome3.jpg') }}" alt="motto" class="rounded-xl w-full h-[275px] object-cover"/>
+	</div>
+{% endblock %}
