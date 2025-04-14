@@ -12,8 +12,8 @@ final class WelcomeController extends AbstractController
   public function index(): Response
   {
     /** @var User $user */
-    $user = $this->getUser();
-    if ($user) {
+
+    if ($this->getUser()) {
       return $this->redirectToRoute('app_dashboard');
     }
 

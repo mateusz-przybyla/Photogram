@@ -13,8 +13,8 @@ final class LoginController extends AbstractController
   public function index(AuthenticationUtils $utils): Response
   {
     /** @var User $user */
-    $user = $this->getUser();
-    if ($user) {
+
+    if ($this->getUser()) {
       return $this->redirectToRoute('app_dashboard');
     }
 
@@ -28,5 +28,5 @@ final class LoginController extends AbstractController
   }
 
   #[Route('/logout', name: 'app_logout')]
-  public function logout() {}
+  public function logout(): void {}
 }
