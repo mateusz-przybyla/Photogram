@@ -20,8 +20,8 @@ security:
       form_login:
         login_path: app_login # strona dla niezalogowanych uzytkownikow
         check_path: app_login # miejsce gdzie wysylane sa dane logowania
-        enable_csrf: true
-        csrf_token_id: authenticate
+        # enable_csrf: true
+        # csrf_token_id: authenticate
       logout:
         path: app_logout
         target: app_login
