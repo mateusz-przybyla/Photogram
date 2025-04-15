@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark">
+<html class="">
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -26,28 +26,28 @@ darkMode: "class"
 	</head>
 	<body class="bg-gray-100 text-gray-800 pt-5 px-5 md:pt-10 md:px-10 dark:bg-gray-800 dark:text-white min-h-screen flex flex-col">
 		<header class="w-full md:w-2/3 mx-auto mb-10 pb-2 flex justify-between items-center border-b border-gray-300">
-			<div class="text-4xl">
-				<a href="{{ path('app_index') }}" class="font-mono">Photogram</a>
+			<div class="text-3xl font-mono">
+				<a href="{{ path('app_index') }}" class="font-semibold">Photogram</a>
 				{% block bread %}{% endblock %}
 			</div>
 			<div class="text-right">
 				<div class="text-sm text-gray-500 dark:text-400 flex">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<div>
-							<a href="#" class="hover:text-violet-600 dark:hover:text-white">New Post</a>
+							<a href="#" class="font-medium hover:text-violet-600 dark:hover:text-white">New Post</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_settings_profile') }}" class="hover:text-violet-600 dark:hover:text-white">Profile</a>
+							<a href="{{ path('app_settings_profile') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Settings</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_logout') }}" class="hover:text-violet-600 dark:hover:text-white">Logout</a>
+							<a href="{{ path('app_logout') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Logout</a>
 						</div>
 					{% else %}
 						<div>
-							<a href="{{ path('app_login') }}" class="hover:text-violet-600 dark:hover:text-white">Login</a>
+							<a href="{{ path('app_login') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Login</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_register') }}" class="hover:text-violet-600 dark:hover:text-white">Register</a>
+							<a href="{{ path('app_register') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Register</a>
 						</div>
 					{% endif %}
 				</div>
