@@ -43,4 +43,15 @@ final class SettingsProfileController extends AbstractController
       'form' => $form
     ]);
   }
+
+  #[Route('/settings/profile-image', name: 'app_settings_profile_image')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
+  public function profileImage(): Response
+  {
+    // aa
+
+    return $this->render('settings_profile/profile_image.html.twig', [
+      //'form' => $form
+    ]);
+  }
 }

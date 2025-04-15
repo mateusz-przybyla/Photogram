@@ -34,20 +34,20 @@ darkMode: "class"
 				<div class="text-sm text-gray-500 dark:text-400 flex">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<div>
-							<a href="#" class="hover:text-black dark:hover:text-white">New Post</a>
+							<a href="#" class="hover:text-violet-600 dark:hover:text-white">New Post</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_settings_profile') }}" class="hover:text-black dark:hover:text-white">Profile</a>
+							<a href="{{ path('app_settings_profile') }}" class="hover:text-violet-600 dark:hover:text-white">Profile</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_logout') }}" class="hover:text-black dark:hover:text-white">Logout</a>
+							<a href="{{ path('app_logout') }}" class="hover:text-violet-600 dark:hover:text-white">Logout</a>
 						</div>
 					{% else %}
 						<div>
-							<a href="{{ path('app_login') }}" class="hover:text-black dark:hover:text-white">Login</a>
+							<a href="{{ path('app_login') }}" class="hover:text-violet-600 dark:hover:text-white">Login</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_register') }}" class="hover:text-black dark:hover:text-white">Register</a>
+							<a href="{{ path('app_register') }}" class="hover:text-violet-600 dark:hover:text-white">Register</a>
 						</div>
 					{% endif %}
 				</div>
