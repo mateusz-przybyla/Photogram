@@ -24,7 +24,7 @@ class ProfileImageType extends AbstractType
               'image/jpeg',
               'image/jpeg'
             ],
-            'mimeTypeMessage' => 'Please upload a valid PNG/JPEG image.'
+            'mimeTypesMessage' => 'Please upload a valid PNG/JPEG image.'
           ])
         ]
       ]);

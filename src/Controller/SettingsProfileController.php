@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\UserProfile;
 use App\Form\UserProfileType;
+use App\Form\ProfileImageType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,12 +47,17 @@ final class SettingsProfileController extends AbstractController
 
   #[Route('/settings/profile-image', name: 'app_settings_profile_image')]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
-  public function profileImage(): Response
+  public function profileImage(Request $request): Response
   {
-    // aa
+    $form = $this->createForm(ProfileImageType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $profileImageFile = $form->getData();
+    }
 
     return $this->render('settings_profile/profile_image.html.twig', [
-      //'form' => $form
+      'form' => $form
     ]);
   }
 }
