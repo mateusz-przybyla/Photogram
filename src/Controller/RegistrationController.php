@@ -27,7 +27,7 @@ class RegistrationController extends AbstractController
     /** @var User $user */
 
     if ($this->getUser()) {
-      return $this->redirectToRoute('app_dashboard');
+      return $this->redirectToRoute('app_post_dashboard');
     }
 
     $user = new User();
