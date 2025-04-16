@@ -56,6 +56,17 @@
 		</div>
 	</div>
 
+	<div class="border-b border-gray-300"></div>
+
+	<div class="text-xl mt-4">
+		Your Profile
+	</div>
+	<div class="text-gray-500 mb-4 pb-4 border-b border-gray-300">
+		Enter more (optional) deatils about yourself. You can do it later.
+	</div>
+
+	{{ include ('/settings_profile/_profile_form.html.twig', { form: registrationForm.userProfile }) }}
+
 	<div>
 		<button type="submit" class="block w-full shadow-sm border-transparent font-medium text-black bg-yellow-400 hover:bg-violet-600 hover:text-white active:bg-violet-800 rounded-md border p-2 mt-4 mb-2">Register</button>
 	</div>
