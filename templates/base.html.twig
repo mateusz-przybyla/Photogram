@@ -37,7 +37,7 @@ darkMode: "class"
 							<a href="#" class="font-medium hover:text-violet-600 dark:hover:text-white">New Post</a>
 						</div>
 						<div class="ml-2">
-							<a href="{{ path('app_settings_profile') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Settings</a>
+							<a href="{{ path('app_profile', {id: app.user.id}) }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Profile</a>
 						</div>
 						<div class="ml-2">
 							<a href="{{ path('app_logout') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Logout</a>
