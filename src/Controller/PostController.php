@@ -63,22 +63,21 @@ final class PostController extends AbstractController
             $this->getParameter('posts_directory'),
             $newFileName
           );
-
-          $post->setImage($newFileName);
         } catch (FileException $e) {
           $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
           return $this->render('post/add.html.twig', [
             'form' => $form
           ]);
         }
+
+        $post->setImage($newFileName);
+        $entityManager->persist($post);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Your post has been added.');
+
+        return $this->redirectToRoute('app_post_dashboard');
       }
-
-      $entityManager->persist($post);
-      $entityManager->flush();
-
-      $this->addFlash('success', 'Your post has been added.');
-
-      return $this->redirectToRoute('app_post_dashboard');
     }
 
     return $this->render('post/add.html.twig', [
