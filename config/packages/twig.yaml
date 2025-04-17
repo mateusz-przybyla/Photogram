@@ -2,6 +2,7 @@ twig:
   file_name_pattern: "*.twig"
   globals:
     profiles: "%profiles%"
+    posts_images: "%posts_images%"
 
 when@test:
   twig:

@@ -20,8 +20,12 @@ final class PostController extends AbstractController
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function dashboard(PostRepository $posts): Response
   {
+    /** @var User $user */
+    $user = $this->getUser();
+
     return $this->render('post/dashboard.html.twig', [
-      'posts' => $posts->findAll()
+      'posts' => $posts->findAll(),
+      'user' => $user
     ]);
   }
 
@@ -60,7 +64,7 @@ final class PostController extends AbstractController
 
         try {
           $postImageFile->move(
-            $this->getParameter('posts_directory'),
+            $this->getParameter('posts_images_directory'),
             $newFileName
           );
         } catch (FileException $e) {

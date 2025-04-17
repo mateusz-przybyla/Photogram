@@ -4,5 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	<div class="text-center">Dashboard</div>
+	<a href="{{ path('app_profile', { id: user.id }) }}" class="flex items-center justify-start pb-8">
+
+		{{ include('shared/_avatar.html.twig', { profile: user.userProfile, size: 20 }) }}
+
+		<div class="ml-3">
+			<div class="text-lg pb-1">{{ user.userProfile ? user.userProfile.photogramUsername : user.email }}</div>
+			<div class="text-base text-gray-500 dark:text-gray-400 font-normal">{{ user.userProfile ? user.userProfile.name : null }}</div>
+		</div>
+	</a>
+	<div class="w-full max-w-xl mx-auto">
+		{% if posts|length > 0 %}
+			{% for post in posts %}
+				{{ include('post/_post.html.twig', {post: post}) }}
+				<div class="border-b border-gray-300 my-6"></div>
+			{% endfor %}
+		{% else %}
+			There's nothing here yet!
+		{% endif %}
+	</div>
 {% endblock %}
