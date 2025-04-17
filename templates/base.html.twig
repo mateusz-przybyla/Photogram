@@ -34,7 +34,7 @@ darkMode: "class"
 				<div class="text-sm text-gray-500 dark:text-gray-400 flex">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<div>
-							<a href="#" class="font-medium hover:text-violet-600 dark:hover:text-white">New Post</a>
+							<a href="{{ path('app_post_add') }}" class="font-medium hover:text-violet-600 dark:hover:text-white">New Post</a>
 						</div>
 						<div class="ml-2">
 							<a href="{{ path('app_profile', {id: app.user.id}) }}" class="font-medium hover:text-violet-600 dark:hover:text-white">Profile</a>

@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\PostRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PostRepository;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -25,6 +26,11 @@ class Post
 
   #[ORM\Column(length: 255, nullable: true)]
   private ?string $location = null;
+
+  public function __construct()
+  {
+    $this->created = new DateTime();
+  }
 
   public function getId(): ?int
   {
