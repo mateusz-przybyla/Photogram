@@ -1,0 +1,23 @@
+{% embed 'shared/_tabs_plain.html.twig' %}
+	{% block tabs %}
+
+		{% embed 'shared/_tab.html.twig' with { route: 'app_post_main' } %}
+			{% block content %}
+				Home
+			{% endblock %}
+			{% block path %}
+				{{ path('app_post_main') }}
+			{% endblock %}
+		{% endembed %}
+
+		{% embed 'shared/_tab.html.twig' with { route: 'app_post_explore', classes: 'ml-5' } %}
+			{% block content %}
+				Explore
+			{% endblock %}
+			{% block path %}
+				{{ path('app_post_explore') }}
+			{% endblock %}
+		{% endembed %}
+
+	{% endblock %}
+{% endembed %}

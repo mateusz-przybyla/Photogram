@@ -14,7 +14,7 @@ final class WelcomeController extends AbstractController
     /** @var User $user */
 
     if ($this->getUser()) {
-      return $this->redirectToRoute('app_post_dashboard');
+      return $this->redirectToRoute('app_post_main');
     }
 
     return $this->render('welcome/index.html.twig');
