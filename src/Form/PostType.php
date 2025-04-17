@@ -2,39 +2,47 @@
 
 namespace App\Form;
 
+use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class ProfileImageType extends AbstractType
+class PostType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder
-      ->add('profileImage', FileType::class, [
-        'label' => 'Profile image (JPG or PNG file)',
+      ->add('description')
+      ->add('location')
+      ->add('postImage', FileType::class, [
+        'label' => 'Upload image (JPG or PNG)',
         'mapped' => false,
-        'required' => false,
+        'required' => true,
         'constraints' => [
           new File([
             'maxSize' => '1024k',
             'mimeTypes' => [
               'image/jpeg',
-              'image/jpeg'
+              'image/png',
             ],
             'mimeTypesMessage' => 'Please upload a valid PNG/JPEG image.',
             'maxSizeMessage' => 'Maximum image size: 1024 KB',
-          ])
-        ]
-      ]);
+          ]),
+          new NotNull([
+            'message' => 'Image is required.',
+          ]),
+        ],
+      ])
+    ;
   }
 
   public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([
-      // Configure your form options here
+      'data_class' => Post::class,
     ]);
   }
 }

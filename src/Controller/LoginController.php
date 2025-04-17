@@ -15,7 +15,7 @@ final class LoginController extends AbstractController
     /** @var User $user */
 
     if ($this->getUser()) {
-      return $this->redirectToRoute('app_dashboard');
+      return $this->redirectToRoute('app_post_dashboard');
     }
 
     $lastUsername = $utils->getLastUsername();

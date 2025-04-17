@@ -6,6 +6,8 @@
 parameters:
   profiles: "/uploads/profiles/"
   profiles_directory: "%kernel.project_dir%/public%profiles%"
+  posts: "/uploads/posts/"
+  posts_directory: "%kernel.project_dir%/public%posts%"
 
 services:
   # default configuration for services in *this* file

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Photogram - New Post
+{% endblock %}
+
+{% block bread %}
+	→ Add Post
+{% endblock %}
+
+{% block body %}
+	<div class="flex justify-center">
+		<div class="block w-full md:w-2/5 mt-5 md:mt-10">
+			{{ include('post/_post_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}
