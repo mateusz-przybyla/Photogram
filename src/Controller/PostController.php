@@ -16,12 +16,29 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class PostController extends AbstractController
 {
-  #[Route('/post/dashboard', name: 'app_post_dashboard')]
+  #[Route('/post/main', name: 'app_post_main')]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
-  public function dashboard(PostRepository $posts): Response
+  public function main(PostRepository $posts): Response
   {
-    return $this->render('post/dashboard.html.twig', [
-      'posts' => $posts->findAll()
+    /** @var User $user */
+    $user = $this->getUser();
+
+    return $this->render('post/main.html.twig', [
+      'posts' => $posts->findAll(),
+      'user' => $user
+    ]);
+  }
+
+  #[Route('/post/explore', name: 'app_post_explore')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
+  public function explore(PostRepository $posts): Response
+  {
+    /** @var User $user */
+    $user = $this->getUser();
+
+    return $this->render('post/explore.html.twig', [
+      'posts' => $posts->findAll(),
+      'user' => $user
     ]);
   }
 
@@ -60,7 +77,7 @@ final class PostController extends AbstractController
 
         try {
           $postImageFile->move(
-            $this->getParameter('posts_directory'),
+            $this->getParameter('posts_images_directory'),
             $newFileName
           );
         } catch (FileException $e) {
