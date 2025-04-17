@@ -60,6 +60,11 @@ darkMode: "class"
 					{{ message }}
 				</div>
 			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<div class="rounded-md p-2 border-red-300 bg-red-50 border dark:border-red-600 dark:bg-red-700 dark:text-white mb-4">
+					{{ message }}
+				</div>
+			{% endfor %}
 
 			{% block body %}{% endblock %}
 

@@ -81,7 +81,10 @@ final class SettingsProfileController extends AbstractController
             $newFileName
           );
         } catch (FileException $e) {
-          $error = 'There was an error uploading your file. Please try again.';
+          $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
+          return $this->render('settings_profile/profile_image.html.twig', [
+            'form' => $form
+          ]);
         }
 
         $userProfile = $user->getUserProfile();
@@ -102,8 +105,7 @@ final class SettingsProfileController extends AbstractController
     }
 
     return $this->render('settings_profile/profile_image.html.twig', [
-      'form' => $form,
-      'error' => $error ?? null
+      'form' => $form
     ]);
   }
 }
