@@ -26,8 +26,7 @@ final class PostController extends AbstractController
     $user = $this->getUser();
 
     return $this->render('post/main.html.twig', [
-      'posts' => $posts->findAll(),
-      'user' => $user
+      'user' => $user // update posts - only display follows user posts !!
     ]);
   }
 
@@ -39,7 +38,7 @@ final class PostController extends AbstractController
     $user = $this->getUser();
 
     return $this->render('post/explore.html.twig', [
-      'posts' => $posts->findAll(),
+      'posts' => $posts->findAll(), // refactor query !!
       'user' => $user
     ]);
   }

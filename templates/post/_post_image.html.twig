@@ -1,0 +1,5 @@
+<div>
+	<a href="{{ path('app_post_show', {post: post.id}) }}" class="transition duration-300 hover:brightness-75">
+		{{ include('shared/_picture.html.twig', { image: post.image }) }}
+	</a>
+</div>
