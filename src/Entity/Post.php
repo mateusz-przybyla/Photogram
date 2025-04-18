@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
@@ -27,9 +29,16 @@ class Post
   #[ORM\Column(length: 255, nullable: true)]
   private ?string $location = null;
 
+  /**
+   * @var Collection<int, Comment>
+   */
+  #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true)]
+  private Collection $comments;
+
   public function __construct()
   {
     $this->created = new DateTime();
+    $this->comments = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -81,6 +90,36 @@ class Post
   public function setLocation(?string $location): static
   {
     $this->location = $location;
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, Comment>
+   */
+  public function getComments(): Collection
+  {
+    return $this->comments;
+  }
+
+  public function addComment(Comment $comment): static
+  {
+    if (!$this->comments->contains($comment)) {
+      $this->comments->add($comment);
+      $comment->setPost($this);
+    }
+
+    return $this;
+  }
+
+  public function removeComment(Comment $comment): static
+  {
+    if ($this->comments->removeElement($comment)) {
+      // set the owning side to null (unless already changed)
+      if ($comment->getPost() === $this) {
+        $comment->setPost(null);
+      }
+    }
 
     return $this;
   }
