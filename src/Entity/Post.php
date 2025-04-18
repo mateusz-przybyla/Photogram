@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -21,18 +22,20 @@ class Post
   private ?string $image = null;
 
   #[ORM\Column(length: 500, nullable: true)]
+  #[Assert\Length(max: 500, maxMessage: 'Description is too long, 500 characters is the maximum.')]
   private ?string $description = null;
 
   #[ORM\Column(type: Types::DATETIME_MUTABLE)]
   private ?\DateTimeInterface $created = null;
 
   #[ORM\Column(length: 255, nullable: true)]
+  #[Assert\Length(max: 255, maxMessage: 'Location is too long, 255 characters is the maximum.')]
   private ?string $location = null;
 
   /**
    * @var Collection<int, Comment>
    */
-  #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true)]
+  #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true, /*cascade: ['persist']*/)]
   private Collection $comments;
 
   public function __construct()

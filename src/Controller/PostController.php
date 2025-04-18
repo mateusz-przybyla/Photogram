@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,12 +95,45 @@ final class PostController extends AbstractController
 
         $this->addFlash('success', 'Your post has been added.');
 
-        return $this->redirectToRoute('app_post_dashboard');
+        return $this->redirectToRoute('app_post_main');
       }
     }
 
     return $this->render('post/add.html.twig', [
       'form' => $form
+    ]);
+  }
+
+  #[Route('/post/{post}/comment', name: 'app_post_comment')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
+  public function addComment(
+    Post $post,
+    Request $request,
+    EntityManagerInterface $entityManager
+  ): Response {
+    $form = $this->createForm(CommentType::class, new Comment());
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $comment = $form->getData();
+      $comment->setPost($post);
+
+      $entityManager->persist($comment);
+      $entityManager->flush();
+
+      $this->addFlash('success', 'Your comment has been added.');
+
+      return $this->redirectToRoute(
+        'app_post_show',
+        [
+          'post' => $post->getId()
+        ]
+      );
+    }
+
+    return $this->render('post/comment.html.twig', [
+      'form' => $form,
+      'post' => $post
     ]);
   }
 }

@@ -1,4 +1,5 @@
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<div class="text-red-700 text-sm mt-1 mb-5">{{ form_errors(form)}}</div>
 <div class="text-center mb-5">
 	{{ form_label(form.postImage, 'Upload Image', {'label_attr': {'class': 'w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
 	{{ form_widget(form.postImage, {'attr': {'class': 'hidden'}}) }}
@@ -20,8 +21,7 @@
 		{{ form_errors(form.location) }}
 	</div>
 </div>
-
 <div>
-	<button type="submit" class="block w-full shadow-sm border-transparent font-medium text-black bg-yellow-400 hover:bg-violet-600 hover:text-white active:bg-violet-800 rounded-md border p-2 mt-4 mb-2">Add</button>
+	<button type="submit" class="block w-full shadow-sm border-transparent font-medium text-black bg-yellow-400 hover:bg-violet-600 hover:text-white active:bg-violet-800 rounded-md border p-2 mt-4 mb-2">Add Post</button>
 </div>
 {{ form_end(form) }}
