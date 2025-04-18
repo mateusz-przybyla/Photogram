@@ -5,15 +5,6 @@
 
 {% block body %}
 	{{ include('post/_main_header.html.twig') }}
-
-	<div class="w-full max-w-xl mx-auto">
-		{% if posts|length > 0 %}
-			{% for post in posts %}
-				{{ include('post/_post.html.twig', {post: post}) }}
-				<div class="border-b border-gray-300 my-6"></div>
-			{% endfor %}
-		{% else %}
-			There's nothing here yet!
-		{% endif %}
-	</div>
+	{{ include('post/_post_list.html.twig', { posts: user.posts }) }}
+	{# update !! #}
 {% endblock %}

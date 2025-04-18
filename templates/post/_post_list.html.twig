@@ -1,0 +1,10 @@
+<div class="w-full max-w-xl mx-auto">
+	{% if posts|length > 0 %}
+		{% for post in posts %}
+			{{ include('post/_post.html.twig', {post: post}) }}
+			<div class="border-b border-gray-300 my-6"></div>
+		{% endfor %}
+	{% else %}
+		There's nothing here yet!
+	{% endif %}
+</div>
