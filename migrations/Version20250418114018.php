@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250418063059 extends AbstractMigration
+final class Version20250418114018 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,10 +21,7 @@ final class Version20250418063059 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, post_id INT NOT NULL, text VARCHAR(500) NOT NULL, INDEX IDX_9474526C4B89032C (post_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE comment ADD CONSTRAINT FK_9474526C4B89032C FOREIGN KEY (post_id) REFERENCES post (id)
+            ALTER TABLE comment ADD created DATETIME NOT NULL
         SQL);
     }
 
@@ -32,10 +29,7 @@ final class Version20250418063059 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE comment DROP FOREIGN KEY FK_9474526C4B89032C
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE comment
+            ALTER TABLE comment DROP created
         SQL);
     }
 }
