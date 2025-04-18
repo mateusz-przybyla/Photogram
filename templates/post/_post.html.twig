@@ -1,38 +1,59 @@
 <div>
-	<a href="#" class="flex items-center pb-3">
-
-		{#{{ include('shared/_avatar.html.twig', { profile: user.userProfile, size: 10 }) }}#}
-		{# wprowadzic dane odpowiedniego usera #}
-			<div class="ml-3"> user@email.com
-		{#{{ user.userProfile ? user.userProfile.photogramUsername : user.email }}#}
-
-
-			{# wprowadzic dane odpowiedniego usera #}
+	<div class="flex items-center pb-3">
+		<a href="{{ path('app_profile', {id: post.author.id}) }}">
+			{{ include('shared/_avatar.html.twig', { profile: post.author.userProfile, size: 10 }) }}
+		</a>
+		<div class="ml-3 mb-2">
+			{% if post.author.userProfile != null %}
+				<div>
+					<a href="{{ path('app_profile', {id: post.author.id}) }}">{{ post.author.userProfile.photogramUsername ?? post.author.email }}</a>
+					<span class="text-gray-500 dark:text-gray-400">•
+						{{ post.created | date("M j, Y") }}</span>
+				</div>
+				<div class="text-xs text-gray-500 dark:text-gray-400">{{ post.location ?? null }}</div>
+			{% else %}
+				<div>
+					<a href="{{ path('app_profile', {id: post.author.id}) }}">{{ post.author.email }}</a>
+					<span class="text-gray-500 dark:text-gray-400">•
+						{{ post.created | date("M j, Y") }}</span>
+				</div>
+				<div class="text-xs text-gray-500 dark:text-gray-400">{{ post.location ?? null }}</div>
+			{% endif %}
 		</div>
-	</a>
+	</div>
 	<a href="{{ path('app_post_show', {post: post.id}) }}">
 		{{ include('shared/_picture.html.twig', { image: post.image }) }}
 	</a>
-	<div class="text-xl dark:text-gray-400">
-		{{ post.description }}
-	</div>
-	<div class="text-gray-500 dark:text-gray-400">
-		{{ post.created | date("M j, Y") }}
-	</div>
-	<div>
+
+	<div class="flex my-2 gap-3">
 		<a href="#">
-			Like
+			<span class="hover:text-violet-600 dark:hover:text-gray-400">Like</span>
 			<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">0</span>
 		</a>
+		<a href="{{ path('app_post_comment', {post: post.id}) }}">
+			<span class="hover:text-violet-600 dark:hover:text-gray-400">Comment</span>
+			<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ post.comments.count }}</span>
+		</a>
 	</div>
-	<div class="text-sm text-gray-500 dark:text-gray-400">
-		<a href="#">user@email.com</a>
+	<div class="text-sm">
+		{% if post.author.userProfile != null %}
+			<div class="flex flex-wrap items-center gap-1">
+				<a href="{{ path('app_profile', {id: post.author.id}) }}">{{ post.author.userProfile.photogramUsername ?? post.author.email }}</a>
+				•
+				<div class="whitespace-nowrap text-gray-500 dark:text-gray-400">{{ post.description }}</div>
+			</div>
+		{% else %}
+			<div class="flex flex-wrap items-center gap-1">
+				<a href="{{ path('app_profile', {id: post.author.id}) }}">{{ post.author.email }}</a>
+				•
+				<div class="whitespace-nowrap text-gray-500 dark:text-gray-400">{{ post.description }}</div>
+			</div>
+		{% endif %}
 	</div>
 	<div>
-		<div class="flex">
-			<a href="#" class="mr-2">Edit</a>
-			<a href="{{ path('app_post_comment', {post: post.id}) }}">Comment
-				<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ post.comments.count }}</span>
+		<div class="flex mt-2">
+			<a href="#" class="mr-2 hover:text-violet-600 dark:hover:text-gray-400">Edit</a>
+			<a href="{{ path('app_post_show', {post: post.id}) }}" class="hover:text-violet-600 dark:hover:text-gray-400">Show
 			</a>
 		</div>
 	</div>

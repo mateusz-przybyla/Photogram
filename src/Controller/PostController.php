@@ -65,7 +65,7 @@ final class PostController extends AbstractController
 
     if ($form->isSubmitted() && $form->isValid()) {
       $post = $form->getData();
-      //$post->setAuthor($this->getUser());
+      $post->setAuthor($this->getUser());
 
       $postImageFile = $form->get('postImage')->getData();
 
@@ -117,6 +117,7 @@ final class PostController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
       $comment = $form->getData();
       $comment->setPost($post);
+      $comment->setAuthor($this->getUser());
 
       $entityManager->persist($comment);
       $entityManager->flush();
