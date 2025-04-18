@@ -57,10 +57,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
   private Collection $comments;
 
+  /**
+   * @var Collection<int, Post>
+   */
+  #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'likedBy')]
+  private Collection $liked;
+
   public function __construct()
   {
-      $this->posts = new ArrayCollection();
-      $this->comments = new ArrayCollection();
+    $this->posts = new ArrayCollection();
+    $this->comments = new ArrayCollection();
+    $this->liked = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -140,43 +147,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
   public function getUserProfile(): ?UserProfile
   {
-      return $this->userProfile;
+    return $this->userProfile;
   }
 
   public function setUserProfile(UserProfile $userProfile): static
   {
-      // set the owning side of the relation if necessary
-      if ($userProfile->getUser() !== $this) {
-          $userProfile->setUser($this);
-      }
+    // set the owning side of the relation if necessary
+    if ($userProfile->getUser() !== $this) {
+      $userProfile->setUser($this);
+    }
 
-      $this->userProfile = $userProfile;
+    $this->userProfile = $userProfile;
 
-      return $this;
+    return $this;
   }
 
   public function isVerified(): bool
   {
-      return $this->isVerified;
+    return $this->isVerified;
   }
 
   public function setIsVerified(bool $isVerified): static
   {
-      $this->isVerified = $isVerified;
+    $this->isVerified = $isVerified;
 
-      return $this;
+    return $this;
   }
 
   public function getBannedUntil(): ?\DateTimeInterface
   {
-      return $this->bannedUntil;
+    return $this->bannedUntil;
   }
 
   public function setBannedUntil(?\DateTimeInterface $bannedUntil): static
   {
-      $this->bannedUntil = $bannedUntil;
+    $this->bannedUntil = $bannedUntil;
 
-      return $this;
+    return $this;
   }
 
   /**
@@ -184,29 +191,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getPosts(): Collection
   {
-      return $this->posts;
+    return $this->posts;
   }
 
   public function addPost(Post $post): static
   {
-      if (!$this->posts->contains($post)) {
-          $this->posts->add($post);
-          $post->setAuthor($this);
-      }
+    if (!$this->posts->contains($post)) {
+      $this->posts->add($post);
+      $post->setAuthor($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removePost(Post $post): static
   {
-      if ($this->posts->removeElement($post)) {
-          // set the owning side to null (unless already changed)
-          if ($post->getAuthor() === $this) {
-              $post->setAuthor(null);
-          }
+    if ($this->posts->removeElement($post)) {
+      // set the owning side to null (unless already changed)
+      if ($post->getAuthor() === $this) {
+        $post->setAuthor(null);
       }
+    }
 
-      return $this;
+    return $this;
   }
 
   /**
@@ -214,28 +221,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getComments(): Collection
   {
-      return $this->comments;
+    return $this->comments;
   }
 
   public function addComment(Comment $comment): static
   {
-      if (!$this->comments->contains($comment)) {
-          $this->comments->add($comment);
-          $comment->setAuthor($this);
-      }
+    if (!$this->comments->contains($comment)) {
+      $this->comments->add($comment);
+      $comment->setAuthor($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeComment(Comment $comment): static
   {
-      if ($this->comments->removeElement($comment)) {
-          // set the owning side to null (unless already changed)
-          if ($comment->getAuthor() === $this) {
-              $comment->setAuthor(null);
-          }
+    if ($this->comments->removeElement($comment)) {
+      // set the owning side to null (unless already changed)
+      if ($comment->getAuthor() === $this) {
+        $comment->setAuthor(null);
       }
+    }
 
-      return $this;
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, Post>
+   */
+  public function getLiked(): Collection
+  {
+    return $this->liked;
+  }
+
+  public function addLiked(Post $liked): static
+  {
+    if (!$this->liked->contains($liked)) {
+      $this->liked->add($liked);
+      $liked->addLikedBy($this);
+    }
+
+    return $this;
+  }
+
+  public function removeLiked(Post $liked): static
+  {
+    if ($this->liked->removeElement($liked)) {
+      $liked->removeLikedBy($this);
+    }
+
+    return $this;
   }
 }
