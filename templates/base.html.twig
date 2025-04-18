@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark">
+<html>
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -24,6 +24,7 @@ darkMode: "class"
 };
 		</script>
 		<script src="{{ asset('js/scroll-to-top.js') }}"></script>
+		<script src="{{ asset('js/theme-toggle.js') }}"></script>
 	</head>
 	<body class="bg-gray-100 text-gray-800 pt-5 px-5 md:pt-10 md:px-10 dark:bg-gray-800 dark:text-white min-h-screen flex flex-col">
 		<header class="w-full md:w-2/3 mx-auto mb-10 pb-2 flex flex-col md:flex-row justify-between items-center border-b border-gray-300">
@@ -78,6 +79,11 @@ darkMode: "class"
 		<!-- Scroll to Top Button -->
 		<button id="scrollToTopBtn" class="hidden fixed bottom-6 right-6 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition" title="To top">
 			↑
+		</button>
+
+		<!-- Light/Dark Button -->
+		<button id="themeToggleBtn" class="fixed bottom-6 left-6 z-50 bg-gray-200 dark:bg-gray-700 text-black dark:text-white p-3 rounded-full shadow-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition" title="Change theme">
+			🌓
 		</button>
 	</body>
 </html>
