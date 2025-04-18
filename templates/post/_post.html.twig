@@ -1,21 +1,38 @@
 <div>
 	<a href="#" class="flex items-center pb-3">
 
-		{{ include('shared/_avatar.html.twig', { profile: user.userProfile, size: 10 }) }}
+		{#{{ include('shared/_avatar.html.twig', { profile: user.userProfile, size: 10 }) }}#}
 		{# wprowadzic dane odpowiedniego usera #}
+			<div class="ml-3"> user@email.com
+		{#{{ user.userProfile ? user.userProfile.photogramUsername : user.email }}#}
 
-		<div class="ml-3">
-			{{ user.userProfile ? user.userProfile.photogramUsername : user.email }}
+
 			{# wprowadzic dane odpowiedniego usera #}
 		</div>
 	</a>
-	<div>
+	<a href="{{ path('app_post_show', {post: post.id}) }}">
 		{{ include('shared/_picture.html.twig', { image: post.image }) }}
-	</div>
+	</a>
 	<div class="text-xl dark:text-gray-400">
 		{{ post.description }}
 	</div>
 	<div class="text-gray-500 dark:text-gray-400">
 		{{ post.created | date("M j, Y") }}
 	</div>
-</div>
+	<div>
+		<a href="#">
+			Like
+			<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">0</span>
+		</a>
+	</div>
+	<div class="text-sm text-gray-500 dark:text-gray-400">
+		<a href="#">user@email.com</a>
+	</div>
+	<div>
+		<div class="flex">
+			<a href="#" class="mr-2">Edit</a>
+			<a href="{{ path('app_post_comment', {post: post.id}) }}">Comment
+				<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ post.comments.count }}</span>
+			</a>
+		</div>
+	</div>
