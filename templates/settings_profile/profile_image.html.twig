@@ -17,10 +17,14 @@
 			<div class="flex flex-col md:flex-row items-center justify-center gap-10">
 				{{ include('shared/_avatar.html.twig', {'size': 40, profile: app.user.userProfile}) }}
 
-				{{ form_label(form.profileImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
-				{{ form_widget(form.profileImage, {'attr': {'class': 'hidden'}}) }}
+				<div class="relative inline-block">
+					{{ form_label(form.profileImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
+					{{ form_widget(form.profileImage, {'attr': {'class': 'hidden', 'onchange': 'validateFile(this)'}}) }}
+
+					<span id="fileName" class="block text-sm text-gray-700 dark:text-white max-w-[130px] truncate overflow-hidden whitespace-nowrap"></span>
+				</div>
 			</div>
-			<div class="text-red-700 text-sm pt-5">
+			<div class="text-red-700 text-sm pt-5" id="errorMessage">
 				{{ form_errors(form.profileImage) }}
 			</div>
 			<div>
@@ -29,4 +33,38 @@
 			{{ form_end(form) }}
 		</div>
 	</div>
+
+	<script>
+		const validateFile = (input) => {
+const fileName = document.getElementById("fileName");
+const errorMessage = document.getElementById("errorMessage");
+
+if (input.files && input.files[0]) {
+const file = input.files[0];
+
+if (!['image/jpeg', 'image/png'].includes(file.type)) {
+errorMessage.textContent = "Only JPG/PNG images are allowed.";
+resetFile(input, fileName);
+return;
+}
+if (file.size > 1024 * 1024) {
+errorMessage.textContent = "File is too large. Max 1MB allowed.";
+resetFile(input, fileName);
+return;
+}
+
+errorMessage.textContent = "";
+fileName.textContent = file.name;
+fileName.classList.add("mt-4");
+} else {
+resetFile(input, fileName);
+}
+}
+
+const resetFile = (input, fileName) => {
+input.value = "";
+fileName.textContent = "";
+fileName.classList.remove("mt-4");
+}
+	</script>
 {% endblock %}
