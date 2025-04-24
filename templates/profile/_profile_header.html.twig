@@ -1,11 +1,11 @@
 <div class="flex flex-col md:flex-row justify-center gap-5 md:gap-20">
-	<div class="flex md:flex-col justify-center items-center md:items-stretch">
+	<div class="flex md:flex-col justify-center items-center md:items-stretch gap-4">
 		<div>
 			{{ include('shared/_avatar.html.twig', { profile: user.userProfile, size: 40 }) }}
 		</div>
 		{% if app.user.id == user.id %}
 			<div>
-				<a href="{{ path('app_settings_profile') }}" class="block w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 rounded-md border p-2 md:mt-4 ml-4 md:ml-0 text-center">
+				<a href="{{ path('app_settings_profile') }}" class="block w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 rounded-md border p-2 text-center">
 					Edit profile
 				</a>
 			</div>

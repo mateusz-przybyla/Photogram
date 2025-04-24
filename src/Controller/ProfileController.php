@@ -23,7 +23,7 @@ final class ProfileController extends AbstractController
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function follows(User $user): Response
   {
-    return $this->render('profile/show.html.twig', [
+    return $this->render('profile/follows.html.twig', [
       'user' => $user,
     ]);
   }
@@ -32,7 +32,7 @@ final class ProfileController extends AbstractController
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function followers(User $user): Response
   {
-    return $this->render('profile/show.html.twig', [
+    return $this->render('profile/followers.html.twig', [
       'user' => $user,
     ]);
   }

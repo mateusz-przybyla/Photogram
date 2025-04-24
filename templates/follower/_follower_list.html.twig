@@ -1,0 +1,30 @@
+{% if users|length > 0 %}
+	{% for otherUser in users %}
+		<div class="flex justify-between items-center max-w-[400px]">
+			<div class="mb-4">
+				<a href="{{ path('app_profile', { id: otherUser.id }) }}">
+					<div class="text-lg">
+						{{ otherUser.userProfile.photogramUsername ?? otherUser.email }}
+					</div>
+					<div class="text-gray-500">
+						{{ otherUser.email }}
+					</div>
+				</a>
+			</div>
+			<div>
+				{% if app.user.id != otherUser.id %}
+					{{ include('follower/_follow_button.html.twig', { userToFollow: otherUser }) }}
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+{% else %}
+	<div class="w-full text-center">
+		<div class="font-bold text-gray-600 dark:text-gray-400">
+			Nothing to show
+		</div>
+		<div class="text-gray-400 dark:text-gray-500">
+			The list is currently empty
+		</div>
+	</div>
+{% endif %}

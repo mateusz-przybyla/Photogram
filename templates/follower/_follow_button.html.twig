@@ -1,9 +1,9 @@
 {% if app.user.follows is defined and not app.user.follows.contains(userToFollow) %}
-	<a href="{{ path('app_follow', { id: userToFollow.id }) }}" class="block w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 rounded-md border p-2 md:mt-4 ml-4 md:ml-0 text-center">
+	<a href="{{ path('app_follow', { id: userToFollow.id }) }}" class="block w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 rounded-md border p-2 text-center">
 		Follow
 	</a>
 {% else %}
-	<a href="{{ path('app_unfollow', { id: userToFollow.id }) }}" class="block w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 rounded-md border p-2 md:mt-4 ml-4 md:ml-0 text-center">
+	<a href="{{ path('app_unfollow', { id: userToFollow.id }) }}" class="block w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 rounded-md border p-2 text-center">
 		Unfollow
 	</a>
 {% endif %}
