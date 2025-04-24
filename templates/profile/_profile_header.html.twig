@@ -9,6 +9,10 @@
 					Edit profile
 				</a>
 			</div>
+		{% else %}
+			<div>
+				{{ include('follower/_follow_button.html.twig', { userToFollow: user }) }}
+			</div>
 		{% endif %}
 	</div>
 	<div>

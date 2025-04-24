@@ -4,14 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 final class FollowerController extends AbstractController
 {
   #[Route('/follow/{id}', name: 'app_follow')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function follow(
     User $userToFollow,
     ManagerRegistry $doctrine,
@@ -29,6 +31,7 @@ final class FollowerController extends AbstractController
   }
 
   #[Route('/unfollow/{id}', name: 'app_unfollow')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function unfollow(
     User $userToUnfollow,
     ManagerRegistry $doctrine,
@@ -38,7 +41,7 @@ final class FollowerController extends AbstractController
     $currentUser = $this->getUser();
 
     if ($userToUnfollow->getId() != $currentUser->getId()) {
-      $currentUser->follow($userToUnfollow);
+      $currentUser->unfollow($userToUnfollow);
       $doctrine->getManager()->flush();
     }
 
