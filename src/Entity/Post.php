@@ -173,18 +173,4 @@ class Post
 
     return $this;
   }
-
-  public function getOriginalImageName(): ?string
-  {
-    if (!$this->image) {
-      return null;
-    }
-
-    $dotPos = strrpos($this->image, '.');
-    $extension = substr($this->image, $dotPos); // np. ".jpg"
-    $base = substr($this->image, 0, $dotPos);   // np. "nazwa-abc123"
-
-    $originalName = preg_replace('/-\w+$/', '', $base); // usuwa końcówkę po ostatnim "-"
-    return $originalName . $extension;
-  }
 }

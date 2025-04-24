@@ -11,8 +11,8 @@
 						}
 					}) }}
 
-		<span id="fileName" class="block text-sm text-gray-700 dark:text-white max-w-[200px] truncate overflow-hidden whitespace-nowrap" data-upload-image-target="fileName">
-			{{ post.originalImageName ?? "" }}</span>
+		<span id="fileName" class="block text-sm text-gray-700 dark:text-white" data-upload-image-target="fileName">
+			{{ originalImageName ?? "" }}</span>
 
 		<div class="text-red-700 text-sm" id="errorMessage" data-upload-image-target="error">
 			{{ form_errors(form.postImage) }}

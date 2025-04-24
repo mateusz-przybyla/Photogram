@@ -6,12 +6,12 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Service\ImageUploader;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -56,7 +56,7 @@ final class PostController extends AbstractController
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function addPost(
     Request $request,
-    SluggerInterface $slugger,
+    ImageUploader $imageUploader,
     EntityManagerInterface $entityManager
   ): Response {
     $form = $this->createForm(PostType::class, new Post());
@@ -69,18 +69,9 @@ final class PostController extends AbstractController
       $postImageFile = $form->get('postImage')->getData();
 
       if ($postImageFile) {
-        $originalFilename = pathinfo(
-          $postImageFile->getClientOriginalName(),
-          PATHINFO_FILENAME
-        );
-        $safeFilename = $slugger->slug($originalFilename);
-        $newFileName = $safeFilename . '-' . uniqid() . '.' . $postImageFile->guessExtension();
-
         try {
-          $postImageFile->move(
-            $this->getParameter('posts_images_directory'),
-            $newFileName
-          );
+          $newFileName = $imageUploader->upload($postImageFile, $this->getParameter('posts_images_directory'));
+          $post->setImage($newFileName);
         } catch (FileException $e) {
           $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
           return $this->render('post/add.html.twig', [
@@ -88,12 +79,10 @@ final class PostController extends AbstractController
           ]);
         }
 
-        $post->setImage($newFileName);
         $entityManager->persist($post);
         $entityManager->flush();
 
         $this->addFlash('success', 'Your post has been added.');
-
         return $this->redirectToRoute('app_post_main');
       }
     }
@@ -142,7 +131,7 @@ final class PostController extends AbstractController
   public function editPost(
     Post $post,
     Request $request,
-    SluggerInterface $slugger,
+    ImageUploader $imageUploader,
     EntityManagerInterface $entityManager
   ): Response {
     $form = $this->createForm(PostType::class, $post, [
@@ -154,45 +143,29 @@ final class PostController extends AbstractController
       $postImageFile = $form->get('postImage')->getData();
 
       if ($postImageFile) {
-        // Pobierz stara nazwe pliku przed zmiana
         $oldImage = $post->getImage();
 
-        $originalFilename = pathinfo(
-          $postImageFile->getClientOriginalName(),
-          PATHINFO_FILENAME
-        );
-        $safeFilename = $slugger->slug($originalFilename);
-        $newFileName = $safeFilename . '-' . uniqid() . '.' . $postImageFile->guessExtension();
-
         try {
-          $postImageFile->move(
-            $this->getParameter('posts_images_directory'),
-            $newFileName
-          );
+          $newFileName = $imageUploader->upload($postImageFile, $this->getParameter('posts_images_directory'));
+          $post->setImage($newFileName);
         } catch (FileException $e) {
           $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
           return $this->render('post/edit.html.twig', [
             'form' => $form,
-            'post' => $post
+            'post' => $post,
+            'originalImageName' => $imageUploader->getOriginalImageName(
+              $post->getImage()
+            )
           ]);
         }
 
-        // Usun stary plik, jesli istnial
         if ($oldImage) {
-          $oldImagePath = $this->getParameter('posts_images_directory') . '/' . $oldImage;
-          if (file_exists($oldImagePath)) {
-            unlink($oldImagePath);
-          }
+          $imageUploader->remove($oldImage, $this->getParameter('posts_images_directory'));
         }
-
-        // nadpisujemy zdjecie tylko jesli nowe zostalo przeslane
-        $post->setImage($newFileName);
       }
-
       $entityManager->flush();
 
       $this->addFlash('success', 'Your post has been updated.');
-
       return $this->redirectToRoute('app_post_show', [
         'post' => $post->getId()
       ]);
@@ -200,7 +173,10 @@ final class PostController extends AbstractController
 
     return $this->render('post/edit.html.twig', [
       'form' => $form,
-      'post' => $post
+      'post' => $post,
+      'originalImageName' => $imageUploader->getOriginalImageName(
+        $post->getImage()
+      )
     ]);
   }
 }
