@@ -5,6 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -22,11 +23,14 @@ class ProfileImageType extends AbstractType
             'maxSize' => '1024k',
             'mimeTypes' => [
               'image/jpeg',
-              'image/jpeg'
+              'image/png'
             ],
             'mimeTypesMessage' => 'Please upload a valid PNG/JPEG image.',
-            'maxSizeMessage' => 'Maximum image size: 1024 KB',
-          ])
+            'maxSizeMessage' => 'Maximum image size: 1 MB',
+          ]),
+          new NotNull([
+            'message' => 'Image is required.',
+          ]),
         ]
       ]);
   }

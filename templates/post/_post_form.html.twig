@@ -1,9 +1,18 @@
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 <div class="text-red-700 text-sm mt-1 mb-5">{{ form_errors(form)}}</div>
-<div class="text-center mb-5">
-	{{ form_label(form.postImage, 'Upload Image', {'label_attr': {'class': 'w-full shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
-	{{ form_widget(form.postImage, {'attr': {'class': 'hidden'}}) }}
-	<div class="text-red-700 text-sm pt-5">
+<div class="flex flex-col items-center gap-2 mb-5" data-controller="upload-image">
+	{{ form_label(form.postImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
+	{{ form_widget(form.postImage, {
+						'attr': {
+							'class': 'hidden',
+							'data-upload-image-target': 'input',
+							'data-action': 'change->upload-image#validateFile'
+						}
+					}) }}
+
+	<span id="fileName" class="block text-sm text-gray-700 dark:text-white max-w-[200px] truncate overflow-hidden whitespace-nowrap" data-upload-image-target="fileName"></span>
+
+	<div class="text-red-700 text-sm" id="errorMessage" data-upload-image-target="error">
 		{{ form_errors(form.postImage) }}
 	</div>
 </div>

@@ -12,16 +12,26 @@
 	{{ include('settings_profile/_settings_profile_tabs.html.twig') }}
 
 	<div class="flex justify-center">
-		<div class="block w-full md:w-2/5 mt-5 md:mt-10 text-center">
+		<div class="block w-full sm:w-2/5 mt-5 sm:mt-10 text-center">
 			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-			<div class="flex flex-col md:flex-row items-center justify-center gap-10">
+
+			<div class="flex flex-col items-center gap-2" data-controller="upload-image">
 				{{ include('shared/_avatar.html.twig', {'size': 40, profile: app.user.userProfile}) }}
 
-				{{ form_label(form.profileImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
-				{{ form_widget(form.profileImage, {'attr': {'class': 'hidden'}}) }}
-			</div>
-			<div class="text-red-700 text-sm pt-5">
-				{{ form_errors(form.profileImage) }}
+				{{ form_label(form.profileImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3 mt-10'}}) }}
+				{{ form_widget(form.profileImage, {
+						'attr': {
+							'class': 'hidden',
+							'data-upload-image-target': 'input',
+							'data-action': 'change->upload-image#validateFile'
+						}
+					}) }}
+
+				<span id="fileName" class="text-sm text-gray-700 dark:text-white max-w-[200px] truncate overflow-hidden whitespace-nowrap" data-upload-image-target="fileName"></span>
+
+				<div class="text-red-700 text-sm" id="errorMessage" data-upload-image-target="error">
+					{{ form_errors(form.profileImage) }}
+				</div>
 			</div>
 			<div>
 				<button type="submit" class="w-full shadow-sm border-transparent font-medium text-black bg-yellow-400 hover:bg-violet-600 hover:text-white active:bg-violet-800 rounded-md border p-2 mt-10">Save Changes</button>
