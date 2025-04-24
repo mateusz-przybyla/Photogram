@@ -26,7 +26,6 @@ export default class extends Controller {
 
     this.clearError();
     this.fileNameTarget.textContent = file.name;
-    this.fileNameTarget.classList.add("mt-4");
   }
 
   showError(message) {
@@ -40,6 +39,5 @@ export default class extends Controller {
   reset() {
     this.inputTarget.value = "";
     this.fileNameTarget.textContent = "";
-    this.fileNameTarget.classList.remove("mt-4");
   }
 }
