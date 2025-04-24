@@ -136,4 +136,71 @@ final class PostController extends AbstractController
       'post' => $post
     ]);
   }
+
+  #[Route('/post/{post}/edit', name: 'app_post_edit')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
+  public function editPost(
+    Post $post,
+    Request $request,
+    SluggerInterface $slugger,
+    EntityManagerInterface $entityManager
+  ): Response {
+    $form = $this->createForm(PostType::class, $post, [
+      'is_edit' => true // informacja do formularza, że jestesmy w trybie edycji
+    ]);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $postImageFile = $form->get('postImage')->getData();
+
+      if ($postImageFile) {
+        // Pobierz stara nazwe pliku przed zmiana
+        $oldImage = $post->getImage();
+
+        $originalFilename = pathinfo(
+          $postImageFile->getClientOriginalName(),
+          PATHINFO_FILENAME
+        );
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFileName = $safeFilename . '-' . uniqid() . '.' . $postImageFile->guessExtension();
+
+        try {
+          $postImageFile->move(
+            $this->getParameter('posts_images_directory'),
+            $newFileName
+          );
+        } catch (FileException $e) {
+          $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
+          return $this->render('post/edit.html.twig', [
+            'form' => $form,
+            'post' => $post
+          ]);
+        }
+
+        // Usun stary plik, jesli istnial
+        if ($oldImage) {
+          $oldImagePath = $this->getParameter('posts_images_directory') . '/' . $oldImage;
+          if (file_exists($oldImagePath)) {
+            unlink($oldImagePath);
+          }
+        }
+
+        // nadpisujemy zdjecie tylko jesli nowe zostalo przeslane
+        $post->setImage($newFileName);
+      }
+
+      $entityManager->flush();
+
+      $this->addFlash('success', 'Your post has been updated.');
+
+      return $this->redirectToRoute('app_post_show', [
+        'post' => $post->getId()
+      ]);
+    }
+
+    return $this->render('post/edit.html.twig', [
+      'form' => $form,
+      'post' => $post
+    ]);
+  }
 }
