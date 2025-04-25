@@ -21,20 +21,15 @@ class PostType extends AbstractType
         'label' => 'Upload image (JPG or PNG)',
         'mapped' => false,
         'required' => true,
-        'constraints' => [
+        'constraints' => array_filter([
           new File([
             'maxSize' => '1024k',
-            'mimeTypes' => [
-              'image/jpeg',
-              'image/png',
-            ],
+            'mimeTypes' => ['image/jpeg', 'image/png'],
             'mimeTypesMessage' => 'Please upload a valid PNG/JPEG image.',
             'maxSizeMessage' => 'Maximum image size: 1024 KB',
           ]),
-          new NotNull([
-            'message' => 'Image is required.',
-          ]),
-        ],
+          $options['is_edit'] === false ? new NotNull(['message' => 'Image is required.']) : null,
+        ]),
       ])
     ;
   }
@@ -43,6 +38,7 @@ class PostType extends AbstractType
   {
     $resolver->setDefaults([
       'data_class' => Post::class,
+      'is_edit' => false
     ]);
   }
 }
