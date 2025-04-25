@@ -23,11 +23,11 @@
 						'attr': {
 							'class': 'hidden',
 							'data-upload-image-target': 'input',
-							'data-action': 'change->upload-image#validateFile'
+							'data-action': 'change->upload-image#checkFile'
 						}
 					}) }}
 
-				<span id="fileName" class="text-sm text-gray-700 dark:text-white max-w-[200px] truncate overflow-hidden whitespace-nowrap" data-upload-image-target="fileName"></span>
+				<span id="fileName" class="block text-sm text-gray-700 dark:text-white" data-upload-image-target="fileName"></span>
 
 				<div class="text-red-700 text-sm" id="errorMessage" data-upload-image-target="error">
 					{{ form_errors(form.profileImage) }}
