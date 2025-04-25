@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["input", "fileName", "error", "preview"];
 
-  validateFile() {
+  checkFile() {
     const input = this.inputTarget;
     const file = input.files[0];
 
