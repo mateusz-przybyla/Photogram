@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["input", "fileName", "error"];
+  static targets = ["input", "fileName", "error", "preview"];
 
   validateFile() {
     const input = this.inputTarget;
@@ -26,6 +26,15 @@ export default class extends Controller {
 
     this.clearError();
     this.fileNameTarget.textContent = file.name;
+    this.showPreview(file);
+  }
+
+  showPreview(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.previewTarget.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   showError(message) {
@@ -39,5 +48,6 @@ export default class extends Controller {
   reset() {
     this.inputTarget.value = "";
     this.fileNameTarget.textContent = "";
+    this.previewTarget.src = "";
   }
 }

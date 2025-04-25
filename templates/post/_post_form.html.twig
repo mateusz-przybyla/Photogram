@@ -1,8 +1,14 @@
 <div class="w-full md:w-2/5 mt-5 md:mt-10 mx-auto">
 	{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 	<div class="text-red-700 text-sm mt-1 mb-5">{{ form_errors(form)}}</div>
+
 	<div class="flex flex-col items-center gap-2 mb-5" data-controller="upload-image">
-		{{ form_label(form.postImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3'}}) }}
+		{{ include('shared/_picture.html.twig', { image: post.image ?? null }) }}
+
+		<span id="fileName" class="block text-sm text-gray-700 dark:text-white" data-upload-image-target="fileName">
+			{{ originalImageName ?? null }}</span>
+
+		{{ form_label(form.postImage, 'Upload Image', {'label_attr': {'class': 'shadow-sm border-transparent font-medium text-white bg-gray-500 hover:bg-violet-600 active:bg-violet-800 cursor-pointer rounded-full border p-3 mt-5'}}) }}
 		{{ form_widget(form.postImage, {
 						'attr': {
 							'class': 'hidden',
@@ -10,9 +16,6 @@
 							'data-action': 'change->upload-image#validateFile'
 						}
 					}) }}
-
-		<span id="fileName" class="block text-sm text-gray-700 dark:text-white" data-upload-image-target="fileName">
-			{{ originalImageName ?? "" }}</span>
 
 		<div class="text-red-700 text-sm" id="errorMessage" data-upload-image-target="error">
 			{{ form_errors(form.postImage) }}
