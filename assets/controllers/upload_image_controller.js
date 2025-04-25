@@ -33,8 +33,16 @@ export default class extends Controller {
     const reader = new FileReader();
     reader.onload = (e) => {
       this.previewTarget.src = e.target.result;
+      this.previewTarget.classList.remove("hidden");
     };
     reader.readAsDataURL(file);
+
+    const placeholder = this.element.querySelector(
+      "[data-upload-image-target='placeholder']"
+    );
+    if (placeholder) {
+      placeholder.classList.add("hidden");
+    }
   }
 
   showError(message) {

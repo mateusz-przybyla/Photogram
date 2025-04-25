@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\UserProfile;
 use App\Form\UserProfileType;
 use App\Form\ProfileImageType;
+use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +56,7 @@ final class SettingsProfileController extends AbstractController
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function profileImage(
     Request $request,
-    SluggerInterface $slugger,
+    ImageUploader $imageUploader,
     EntityManagerInterface $entityManager
   ): Response {
     $form = $this->createForm(ProfileImageType::class);
@@ -68,25 +69,6 @@ final class SettingsProfileController extends AbstractController
       $profileImageFile = $form->get('profileImage')->getData();
 
       if ($profileImageFile) {
-        $originalFilename = pathinfo(
-          $profileImageFile->getClientOriginalName(),
-          PATHINFO_FILENAME
-        );
-        $safeFilename = $slugger->slug($originalFilename);
-        $newFileName = $safeFilename . '-' . uniqid() . '.' . $profileImageFile->guessExtension();
-
-        try {
-          $profileImageFile->move(
-            $this->getParameter('profiles_directory'),
-            $newFileName
-          );
-        } catch (FileException $e) {
-          $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
-          return $this->render('settings_profile/profile_image.html.twig', [
-            'form' => $form
-          ]);
-        }
-
         $userProfile = $user->getUserProfile();
 
         if (!$userProfile) {
@@ -95,11 +77,19 @@ final class SettingsProfileController extends AbstractController
           $entityManager->persist($user);
         }
 
-        $userProfile->setImage($newFileName);
+        try {
+          $newFileName = $imageUploader->upload($profileImageFile, $this->getParameter('profiles_directory'));
+          $userProfile->setImage($newFileName);
+        } catch (FileException $e) {
+          $this->addFlash('error', 'An error occurred while uploading the image. Please try again.');
+          return $this->render('settings_profile/profile_image.html.twig', [
+            'form' => $form
+          ]);
+        }
+
         $entityManager->flush();
 
         $this->addFlash('success', 'Your profile image was updated.');
-
         return $this->redirectToRoute('app_settings_profile_image');
       }
     }
