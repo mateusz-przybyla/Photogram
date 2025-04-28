@@ -5,6 +5,5 @@
 
 {% block body %}
 	{{ include('post/_main_header.html.twig') }}
-	{{ include('post/_post_list.html.twig', { posts: user.posts }) }}
-	{# update !! #}
+	{{ include('post/_post_list.html.twig', { posts: posts }) }}
 {% endblock %}
