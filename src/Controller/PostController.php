@@ -177,4 +177,31 @@ final class PostController extends AbstractController
       )
     ]);
   }
+
+  #[Route('/post/{post}/delete', name: 'app_post_delete')]
+  #[IsGranted('IS_AUTHENTICATED_FULLY')]
+  public function deletePost(
+    Post $post,
+    PostRepository $posts,
+    ImageUploader $imageUploader,
+    EntityManagerInterface $entityManager
+  ): Response {
+    /** @var User $user */
+    $user = $this->getUser();
+
+    $oldImage = $post->getImage();
+
+    if ($oldImage) {
+      $imageUploader->remove($oldImage, $this->getParameter('posts_images_directory'));
+    }
+    $entityManager->remove($post);
+    $entityManager->flush();
+
+    $this->addFlash('success', 'Your post has been deleted.');
+    return $this->redirectToRoute('app_post_main', [
+      'posts' => $posts->findAllByAuthors(
+        $user->getFollows()
+      )
+    ]);
+  }
 }
