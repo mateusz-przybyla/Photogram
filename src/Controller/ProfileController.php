@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -12,10 +13,11 @@ final class ProfileController extends AbstractController
 {
   #[Route('/profile/{id}', name: 'app_profile')]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
-  public function show(User $user): Response
+  public function show(User $user, PostRepository $posts): Response
   {
     return $this->render('profile/show.html.twig', [
       'user' => $user,
+      'posts' => $posts->findAllByAuthor($user)
     ]);
   }
 

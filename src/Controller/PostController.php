@@ -26,7 +26,9 @@ final class PostController extends AbstractController
     $user = $this->getUser();
 
     return $this->render('post/main.html.twig', [
-      'user' => $user // update posts - only display follows user posts !!
+      'posts' => $posts->findAllByAuthors(
+        $user->getFollows()
+      )
     ]);
   }
 
@@ -34,12 +36,8 @@ final class PostController extends AbstractController
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function explore(PostRepository $posts): Response
   {
-    /** @var User $user */
-    $user = $this->getUser();
-
     return $this->render('post/explore.html.twig', [
-      'posts' => $posts->findAll(), // refactor query !!
-      'user' => $user
+      'posts' => $posts->findAll()
     ]);
   }
 
