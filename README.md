@@ -79,37 +79,32 @@ _[To be added]_
 
 ### Screenshots
 
+**Welcome page**  
+![](/readme/welcome.png)
+
 **Sign up page**  
-![](/readme/sign-up.jpg)
-_[To be added]_
+![](/readme/sign-up.png)
 
 **Email verification notice**  
-![](/readme/email-verification.jpg)
-_[To be added]_
+![](/readme/email-verification.png)
 
 **Main feed – posts from followed users**  
-![](/readme/main-feed.jpg)
-_[To be added]_
+![](/readme/main-feed.png)
 
 **Explore feed – all posts**  
-![](/readme/explore.jpg)
-_[To be added]_
+![](/readme/explore.png)
 
 **Post details – with likes and comments**  
-![](/readme/post-details.jpg)
-_[To be added]_
+![](/readme/post-details.png)
 
 **User profile – posts, followers, following**  
-![](/readme/profile.jpg)
-_[To be added]_
+![](/readme/profile.png)
 
 **Profile settings – update data and profile image**  
-![](/readme/profile-settings.jpg)
-_[To be added]_
+![](/readme/profile-settings.png)
 
 **Mobile view**  
-![](/readme/mobile.jpg)
-_[To be added]_
+![](/readme/mobile.png)
 
 ## My process
 
