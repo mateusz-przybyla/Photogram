@@ -30,10 +30,10 @@
 			<a href="{{ path('app_unlike', {id: post.id}) }}" class="flex items-center gap-1 group">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 transition group-hover:scale-110" fill="currentColor" viewbox="0 0 24 24">
 					<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42
-																																																															               4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09
-																																																															               3.81 14.76 3 16.5 3 19.58 3 22 5.42 22
-																																																															               8.5c0 3.78-3.4 6.86-8.55
-																																																															               11.54L12 21.35z"/>
+																																																																																																								4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09
+																																																																																																								3.81 14.76 3 16.5 3 19.58 3 22 5.42 22
+																																																																																																								8.5c0 3.78-3.4 6.86-8.55
+																																																																																																								11.54L12 21.35z"/>
 				</svg>
 				<span class="text-red-500 hover:text-red-600">Unlike</span>
 				<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
@@ -44,9 +44,9 @@
 			<a href="{{ path('app_like', {id: post.id}) }}" class="flex items-center gap-1 group">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 transition group-hover:text-red-500 group-hover:scale-110" fill="none" viewbox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000
-																																																															               6.364L12 20.364l7.682-7.682a4.5 4.5
-																																																															               0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5
-																																																															               4.5 0 00-6.364 0z"/>
+																																																																																																								6.364L12 20.364l7.682-7.682a4.5 4.5
+																																																																																																								0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5
+																																																																																																								4.5 0 00-6.364 0z"/>
 				</svg>
 				<span class="hover:text-red-500">Like</span>
 				<span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
@@ -79,7 +79,10 @@
 		<div class="flex mt-2">
 			{% if app.user.id == post.author.id %}
 				<a href="{{ path('app_post_edit', {post: post.id}) }}" class="mr-2 hover:text-violet-600 dark:hover:text-gray-400">Edit</a>
-				<a href="{{ path('app_post_delete', {post: post.id}) }}" class="mr-2 hover:text-violet-600 dark:hover:text-gray-400">Delete</a>
+				<form method="POST" action="{{ path('app_post_delete', {post: post.id}) }}">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete-post-' ~ post.id) }}">
+					<button type="submit" class="mr-2 hover:text-violet-600 dark:hover:text-gray-400">Delete</button>
+				</form>
 			{% endif %}
 
 			<a href="{{ path('app_post_show', {post: post.id}) }}" class="hover:text-violet-600 dark:hover:text-gray-400">Show

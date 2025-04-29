@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class PostController extends AbstractController
 {
-  #[Route('/post/main', name: 'app_post_main')]
+  #[Route('/post/main', name: 'app_post_main', methods: ['GET'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function main(PostRepository $posts): Response
   {
@@ -32,7 +32,7 @@ final class PostController extends AbstractController
     ]);
   }
 
-  #[Route('/post/explore', name: 'app_post_explore')]
+  #[Route('/post/explore', name: 'app_post_explore', methods: ['GET'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function explore(PostRepository $posts): Response
   {
@@ -41,7 +41,7 @@ final class PostController extends AbstractController
     ]);
   }
 
-  #[Route('/post/{post}', name: 'app_post_show')]
+  #[Route('/post/{post}', name: 'app_post_show', requirements: ['post' => '\d+'], methods: ['GET'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function showOne(Post $post): Response
   {
@@ -50,7 +50,7 @@ final class PostController extends AbstractController
     ]);
   }
 
-  #[Route('/post/add', name: 'app_post_add', priority: 2)]
+  #[Route('/post/add', name: 'app_post_add', methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function addPost(
     Request $request,
@@ -81,7 +81,12 @@ final class PostController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'Your post has been added.');
-        return $this->redirectToRoute('app_post_main');
+        return $this->redirectToRoute(
+          'app_post_show',
+          [
+            'post' => $post->getId()
+          ]
+        );
       }
     }
 
@@ -90,7 +95,7 @@ final class PostController extends AbstractController
     ]);
   }
 
-  #[Route('/post/{post}/comment', name: 'app_post_comment')]
+  #[Route('/post/{post}/comment', name: 'app_post_comment', requirements: ['post' => '\d+'], methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function addComment(
     Post $post,
@@ -124,7 +129,7 @@ final class PostController extends AbstractController
     ]);
   }
 
-  #[Route('/post/{post}/edit', name: 'app_post_edit')]
+  #[Route('/post/{post}/edit', name: 'app_post_edit', requirements: ['post' => '\d+'], methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function editPost(
     Post $post,
@@ -178,16 +183,20 @@ final class PostController extends AbstractController
     ]);
   }
 
-  #[Route('/post/{post}/delete', name: 'app_post_delete')]
+  #[Route('/post/{post}/delete', name: 'app_post_delete', requirements: ['post' => '\d+'], methods: ['POST'])]
   #[IsGranted('IS_AUTHENTICATED_FULLY')]
   public function deletePost(
     Post $post,
-    PostRepository $posts,
+    Request $request,
     ImageUploader $imageUploader,
     EntityManagerInterface $entityManager
   ): Response {
     /** @var User $user */
     $user = $this->getUser();
+
+    /*if (!$this->isCsrfTokenValid('delete-post-' . $post->getId(), $request->request->get('_token'))) {
+      throw $this->createAccessDeniedException('Invalid CSRF token.');
+    }*/
 
     $oldImage = $post->getImage();
 
@@ -198,10 +207,9 @@ final class PostController extends AbstractController
     $entityManager->flush();
 
     $this->addFlash('success', 'Your post has been deleted.');
-    return $this->redirectToRoute('app_post_main', [
-      'posts' => $posts->findAllByAuthors(
-        $user->getFollows()
-      )
+
+    return $this->redirectToRoute('app_profile', [
+      'id' => $user->getId(),
     ]);
   }
 }
