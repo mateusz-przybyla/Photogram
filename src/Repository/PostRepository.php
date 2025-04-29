@@ -19,6 +19,13 @@ class PostRepository extends ServiceEntityRepository
     parent::__construct($registry, Post::class);
   }
 
+  public function findAllPostsByNewest(): array
+  {
+    return $this->findAllQuery()
+      ->getQuery()
+      ->getResult();
+  }
+
   public function findAllWithComments(): array
   {
     return $this->findAllQuery(

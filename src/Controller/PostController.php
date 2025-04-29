@@ -37,7 +37,7 @@ final class PostController extends AbstractController
   public function explore(PostRepository $posts): Response
   {
     return $this->render('post/explore.html.twig', [
-      'posts' => $posts->findAll()
+      'posts' => $posts->findAllPostsByNewest()
     ]);
   }
 
