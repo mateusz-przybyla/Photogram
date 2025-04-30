@@ -73,7 +73,7 @@ Photogram is a social web application that replicates core features of Instagram
 
 ### Database design
 
-_[To be added]_
+![](/readme/database_schema.png)
 
 ---
 
