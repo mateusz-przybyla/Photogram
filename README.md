@@ -1,6 +1,5 @@
 # Photogram
 
-**[App in progress]**  
 Photogram is an Instagram-style demo application built with **Symfony**. It allows users to share pictures, follow each other, like and comment on posts, and manage their profiles.
 
 ## Table of contents
